@@ -15,7 +15,13 @@ The features of the project include:
  position, aligning with the area where the pushing motor deposits the
  pieces.
 
++++###+++###+++###+++###
+There are some pictures and videos 
+included about this self-selected project.
++++###+++###+++###+++###
+
 The project was successfully completed.
+
 
 ### ### ### ###
 To-Do Features 
