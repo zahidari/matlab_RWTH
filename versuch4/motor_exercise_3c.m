@@ -1,0 +1,156 @@
+%% Aufgabe Zahlendarstellung c)
+% Template
+clear all
+
+%%  ----- MATLAB Calculation -----
+ 
+
+%% Get two numbers from user dialog
+% Tips:
+% * use MATLAB command "inputdlg".
+% * see MATLAB help for usage and more information.
+% * convert the reponse cell array into numbers using "str2double"
+%
+% ... insert here your code
+promt = {'1. summant','2. summant','choose operation'};
+answer = inputdlg(promt);
+k = str2double(answer{1});
+l = str2double(answer{2});
+choice = answer{3};
+
+%% Calculate the summation of the two numbers
+% ... insert here your code
+sum = k+l;
+ 
+winkel1 =floor(sum/10)*36;
+winkel2 =mod(sum,10)*36;
+
+w1 = 90-floor(sum/10)*36;     % für zehner % andern
+ 
+ %rem = remainder
+ w2 = 90-mod(sum,10)*36;       % für einser % andern
+
+
+%% Initialize figures
+plot_number_face;   % plot calculator face figure
+hold on             % hold on flag to plot more plots into the calculator face figure
+
+
+
+%% Calculate pointers to plot
+% Tips:
+% * for line plotting only the start and end point of the line has to be given
+% * the rotated pointers can be easily constructed by a complex number (value and phase)
+% * the length of the complex vectors should be different for both pointers and less than one
+% * note the number zero is located at the coordinates (x,y) = (0,1) or (0,i) respectively
+% * take care to use degrees or radian
+% * consider only angles which are related to the exact number position. Angles between two
+% numbers should be neglected.
+%
+% ... insert here your code
+
+mul=k*l;
+div=k/l;
+
+kc=conj(k);
+
+conj = kc;
+
+sqrt = [sqrt(k), sqrt(l)];
+
+
+
+
+
+switch(choice)
+    case 'sum'
+        sum
+    case 'mul'
+        mul
+    case 'div'
+        div
+    case'conj'
+        kc
+    case 'sqrt'
+        sqrt
+    otherwise
+        fprintf('sie haben etwas falsches eingegeben.');
+end
+
+
+
+
+
+
+
+
+
+
+%% Plot pointers into the figure
+% Tips:
+% * for line plotting only the start and end point of the line has to be given
+% * use different colors for the pointers
+%
+% ... insert here your code
+w1c = 0.4*exp(j*w1*pi/180);
+w2c = 0.9*exp(j*w2*pi/180);
+c1=compass(w1c);
+c2=compass(w2c);
+c1.LineWidth=4;
+c1.Color = 'g';
+c2.LineWidth=4;
+c2.Color = 'b';
+% real=[real(w1c) real(w2c)];
+% imag=[imag(w1c) imag(w2c)];
+% compass(real,imag);
+% compass
+%pfeil2=compass(w2c);
+%pfeil1.lineWidth = 4;
+%pfeil2.lineWidth = 4;
+%% Mindstorms NXT - Control
+%
+
+b = EV3();
+b.connect('usb');
+b.beep();
+
+
+b.motorA.resetTachoCount;
+b.motorA.internalReset;
+b.motorD.resetTachoCount;
+b.motorD.internalReset;
+
+
+b.motorA.limitValue = winkel2;   
+b.motorD.limitValue = winkel1*45;
+b.motorD.power = -100;
+
+b.motorA.brakeMode = 'Brake';
+b.motorD.brakeMode = 'Brake';
+
+
+b.motorA.start;
+b.motorA.waitFor;
+pause(1);
+b.motorD.start;
+b.motorD.waitFor;
+pause(1);
+
+%b.motorD.setBrake(0)
+%b.motorA.setBrake(0)
+b.motorA.power = -50;
+b.motorD.power = +100;
+b.motorA.start;
+b.motorA.waitFor;
+pause(1);
+b.motorD.start;
+b.motorD.waitFor;
+pause(1);
+
+b.disconnect;
+
+
+%%
+% *Program the Mindstorms machine*
+%
+% ... insert here your code
